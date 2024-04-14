@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package gabi.electromuebles.modelo;
 
-/**
- *
- * @author argote
- */
 public class Cliente extends Persona {
 
     private String direccion;
@@ -15,8 +8,8 @@ public class Cliente extends Persona {
     public Cliente(){
     }
 
-    public Cliente(int id, int cedula, String nombre_completo, int numero_telefono, String direccion) {
-        super(id, cedula, nombre_completo, numero_telefono);
+    public Cliente(int id, String nombreCompleto, long cedula, long telefono, String direccion) {
+        super(id, nombreCompleto,cedula, telefono);
         this.direccion = direccion;
     }
 
@@ -28,4 +21,9 @@ public class Cliente extends Persona {
         this.direccion = direccion;
     }
 
+    @Override
+    public void mostrarInformacion() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
 }
