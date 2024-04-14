@@ -26,6 +26,7 @@ public class AgregarCliente extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -36,8 +37,15 @@ public class AgregarCliente extends javax.swing.JPanel {
         txtDireccionC = new javax.swing.JTextField();
         txtTelefonoC = new javax.swing.JTextField();
         btnAgregarCliente = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        rbMayo = new javax.swing.JRadioButton();
+        rbMino = new javax.swing.JRadioButton();
+
+        buttonGroup1.add(rbMayo);
+        buttonGroup1.add(rbMino);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.setPreferredSize(new java.awt.Dimension(850, 550));
 
         jLabel1.setText("Nombre completo");
@@ -50,7 +58,19 @@ public class AgregarCliente extends javax.swing.JPanel {
 
         btnAgregarCliente.setBackground(new java.awt.Color(51, 255, 51));
         btnAgregarCliente.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnAgregarCliente.setText("Agregar cliente");
+        btnAgregarCliente.setText("AGREGAR CLIENTE");
+
+        jLabel5.setText("Tipo de cliente");
+
+        rbMayo.setSelected(true);
+        rbMayo.setText("Mayorista");
+        rbMayo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbMayoActionPerformed(evt);
+            }
+        });
+
+        rbMino.setText("Minorista");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -64,15 +84,21 @@ public class AgregarCliente extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addGap(141, 141, 141)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombreC, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                            .addComponent(txtCedulaC)
-                            .addComponent(txtDireccionC)
-                            .addComponent(txtTelefonoC)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtNombreC, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                                .addComponent(txtCedulaC)
+                                .addComponent(txtDireccionC)
+                                .addComponent(txtTelefonoC))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(rbMayo)
+                                .addGap(63, 63, 63)
+                                .addComponent(rbMino))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(243, 243, 243)
+                        .addGap(246, 246, 246)
                         .addComponent(btnAgregarCliente)))
                 .addContainerGap(264, Short.MAX_VALUE))
         );
@@ -96,9 +122,14 @@ public class AgregarCliente extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtTelefonoC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(rbMayo)
+                    .addComponent(rbMino))
+                .addGap(33, 33, 33)
                 .addComponent(btnAgregarCliente)
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addContainerGap(251, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -117,14 +148,22 @@ public class AgregarCliente extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void rbMayoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMayoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbMayoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarCliente;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton rbMayo;
+    private javax.swing.JRadioButton rbMino;
     private javax.swing.JTextField txtCedulaC;
     private javax.swing.JTextField txtDireccionC;
     private javax.swing.JTextField txtNombreC;

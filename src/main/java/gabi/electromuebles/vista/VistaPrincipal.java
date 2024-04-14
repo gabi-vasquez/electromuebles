@@ -16,10 +16,10 @@ import javax.swing.ImageIcon;
  *
  * @author argote
  */
-public class Vista_principal extends javax.swing.JFrame {
+public class VistaPrincipal extends javax.swing.JFrame {
 
 
-    public Vista_principal() {
+    public VistaPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -42,7 +42,7 @@ public class Vista_principal extends javax.swing.JFrame {
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(850, 550));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -52,7 +52,7 @@ public class Vista_principal extends javax.swing.JFrame {
 
         btnProducto.setBackground(new java.awt.Color(153, 255, 51));
         btnProducto.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnProducto.setText("Productos");
+        btnProducto.setText("PRODUCTOS");
         btnProducto.setBorder(null);
         btnProducto.setBorderPainted(false);
         btnProducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -65,7 +65,7 @@ public class Vista_principal extends javax.swing.JFrame {
 
         btnCliente.setBackground(new java.awt.Color(153, 255, 51));
         btnCliente.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnCliente.setText("Clientes");
+        btnCliente.setText("CLIENTES");
         btnCliente.setBorder(null);
         btnCliente.setBorderPainted(false);
         btnCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -77,7 +77,7 @@ public class Vista_principal extends javax.swing.JFrame {
 
         btnEmpleado.setBackground(new java.awt.Color(153, 255, 51));
         btnEmpleado.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnEmpleado.setText("Empleados");
+        btnEmpleado.setText("EMPLEADOS");
         btnEmpleado.setBorder(null);
         btnEmpleado.setBorderPainted(false);
         btnEmpleado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -89,7 +89,7 @@ public class Vista_principal extends javax.swing.JFrame {
 
         btnFactura.setBackground(new java.awt.Color(153, 255, 51));
         btnFactura.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnFactura.setText("Factura");
+        btnFactura.setText("FACTURA");
         btnFactura.setBorder(null);
         btnFactura.setBorderPainted(false);
         btnFactura.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -104,15 +104,15 @@ public class Vista_principal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(67, 67, 67)
                 .addComponent(btnProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(btnCliente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addGap(90, 90, 90)
                 .addComponent(btnEmpleado)
-                .addGap(112, 112, 112)
+                .addGap(106, 106, 106)
                 .addComponent(btnFactura)
-                .addGap(113, 113, 113))
+                .addGap(102, 102, 102))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,8 +121,8 @@ public class Vista_principal extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEmpleado)
-                    .addComponent(btnFactura))
+                    .addComponent(btnEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -157,7 +157,8 @@ public class Vista_principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -200,7 +201,7 @@ public class Vista_principal extends javax.swing.JFrame {
         content.repaint();
     }
     public void mostrarPaginaEmpleado(){
-        Empleado e = new Empleado();
+        VistaEmpleado e = new VistaEmpleado();
         e.setSize(1020, 560);
         e.setLocation(0, 0);
         

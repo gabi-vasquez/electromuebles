@@ -1,26 +1,20 @@
 
 package gabi.electromuebles.modelo;
 
-import gabi.electromuebles.controlador.MySqlConexion;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 
-public class LoginDAO {
-    Connection con;
-    PreparedStatement ps;
-    ResultSet rs;
-    MySqlConexion cn = new MySqlConexion();
+public class LoginDAO extends DAO{
+    
+
     
     public Login log(String usuario, String contrasena){
         Login l = new Login();
         //consulta
         String sql = "SELECT * FROM Usuarios WHERE usuario = ? AND contrasena = ?";
         try{
-            con = cn.getConexion();
             ps = con.prepareStatement(sql);
             ps.setString(1, usuario);
             ps.setString(2, contrasena);

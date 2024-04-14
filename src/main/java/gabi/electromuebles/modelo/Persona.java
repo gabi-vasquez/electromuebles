@@ -1,28 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package gabi.electromuebles.modelo;
 
-/**
- *
- * @author argote
- */
-public class Persona {
+public abstract class Persona {
 
     private int id;
-    private int cedula;
-    private String nombre_completo;
-    private int numero_telefono;
+    private String nombreCompleto;
+    private long cedula;
+    private long telefono;
     
     public Persona(){
     }
     
-    public Persona(int id, int cedula, String nombre_completo, int numero_telefono) {
+    public Persona(int id, String nombreCompleto, long cedula ,long telefono) {
         this.id = id;
+        this.nombreCompleto = nombreCompleto;
         this.cedula = cedula;
-        this.nombre_completo = nombre_completo;
-        this.numero_telefono = numero_telefono;
+        this.telefono = telefono;
     }
 
     public int getId() {
@@ -33,28 +26,30 @@ public class Persona {
         this.id = id;
     }
 
-    public int getCedula() {
+    public long getCedula() {
         return cedula;
     }
 
-    public void setCedula(int cedula) {
+    public void setCedula(long cedula) {
         this.cedula = cedula;
     }
 
-    public String getNombre_completo() {
-        return nombre_completo;
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setNombre_completo(String nombre_completo) {
-        this.nombre_completo = nombre_completo;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
-    public int getNumero_telefono() {
-        return numero_telefono;
+    public long getTelefono() {
+        return telefono;
     }
 
-    public void setNumero_telefono(int numero_telefono) {
-        this.numero_telefono = numero_telefono;
+    public void setTelefono(long telefono) {
+        this.telefono = telefono;
     }
+    
+    public abstract void mostrarInformacion();
 
 }

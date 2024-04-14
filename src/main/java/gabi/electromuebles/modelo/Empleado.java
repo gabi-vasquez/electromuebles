@@ -1,20 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package gabi.electromuebles.modelo;
 
-/**
- *
- * @author argote
- */
 public class Empleado extends Persona {
 
     
     public Empleado(){}
     
-    public Empleado(int id, int cedula, String nombre_completo, int numero_telefono) {
-        super(id, cedula, nombre_completo, numero_telefono);
+    public Empleado(int id, String nombreCompleto,long cedula, long telefono) {
+        super(id, nombreCompleto, cedula, telefono);
+    }
+
+    @Override
+    public void mostrarInformacion() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

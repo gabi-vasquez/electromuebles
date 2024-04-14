@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author argote
  */
-public class Vista_login extends javax.swing.JFrame {
+public class VistaLogin extends javax.swing.JFrame {
 
     private static final String LOGO = "src/main/java/gabi/electromuebles/imagenes/logo.png";
     private static final String USUARIO = "src/main/java/gabi/electromuebles/imagenes/user.png";
@@ -27,7 +27,7 @@ public class Vista_login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    public Vista_login() {
+    public VistaLogin() {
         initComponents();
         this.setLocationRelativeTo(null);
         cargarImagenes();
@@ -118,7 +118,8 @@ public class Vista_login extends javax.swing.JFrame {
 
         btnIniciarSesion.setBackground(new java.awt.Color(0, 102, 255));
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        btnIniciarSesion.setText("Iniciar sesion");
+        btnIniciarSesion.setText("INICIAR SESION");
+        btnIniciarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarSesionActionPerformed(evt);
@@ -269,7 +270,7 @@ public class Vista_login extends javax.swing.JFrame {
         }
 
         if (login.getUsuario().equals(usuario) && login.getContrasena().equals(contrasena)) {
-            Vista_principal vistaPrincipal = new Vista_principal();
+            VistaPrincipal vistaPrincipal = new VistaPrincipal();
             vistaPrincipal.setVisible(true);
             this.dispose();
         }

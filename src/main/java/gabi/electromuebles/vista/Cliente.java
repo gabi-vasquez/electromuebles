@@ -42,7 +42,8 @@ public class Cliente extends javax.swing.JPanel {
 
         btnBuscar.setBackground(new java.awt.Color(102, 255, 102));
         btnBuscar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnBuscar.setText("Buscar");
+        btnBuscar.setText("BUSCAR");
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -57,15 +58,17 @@ public class Cliente extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", ""
+                "id", "nombreCompleto", "cedula", "telefono", "direccion"
             }
         ));
         jTable1.setCellSelectionEnabled(true);
         jScrollPane2.setViewportView(jTable1);
+        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         btnNuevo.setBackground(new java.awt.Color(51, 255, 51));
         btnNuevo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnNuevo.setText("NUEVO");
+        btnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -75,6 +78,7 @@ public class Cliente extends javax.swing.JPanel {
         btnEditar.setBackground(new java.awt.Color(51, 255, 51));
         btnEditar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnEditar.setText("EDITAR");
+        btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         btnEliminar.setBackground(new java.awt.Color(51, 255, 51));
         btnEliminar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
@@ -87,21 +91,21 @@ public class Cliente extends javax.swing.JPanel {
             .addGroup(contentLayout.createSequentialGroup()
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(buscarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)
-                        .addComponent(btnBuscar))
-                    .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(contentLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(btnNuevo)
                         .addGap(42, 42, 42)
                         .addComponent(btnEditar)
                         .addGap(47, 47, 47)
-                        .addComponent(btnEliminar)))
-                .addContainerGap(178, Short.MAX_VALUE))
+                        .addComponent(btnEliminar))
+                    .addGroup(contentLayout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(contentLayout.createSequentialGroup()
+                                .addComponent(buscarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(73, 73, 73)
+                                .addComponent(btnBuscar)))))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,9 +114,9 @@ public class Cliente extends javax.swing.JPanel {
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buscarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
-                .addGap(45, 45, 45)
+                .addGap(38, 38, 38)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58)
+                .addGap(65, 65, 65)
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
                     .addComponent(btnEditar)

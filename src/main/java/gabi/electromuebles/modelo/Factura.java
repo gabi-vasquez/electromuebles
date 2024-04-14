@@ -1,31 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package gabi.electromuebles.modelo;
 
 import java.util.Date;
 
-/**
- *
- * @author argote
- */
 public class Factura {
 
     int id;
-    int id_cliente;
-    int id_empleado;
-    Date fecha_venta;
-    double total_venta;
+    int idCliente;
+    int idEmpleado;
+    Date fecha;
+    double total;
     
     public Factura(){}
-    
-    public Factura(int id, int id_cliente, int id_empleado, Date fecha_venta, double total_venta) {
+
+    public Factura(int id, int idCliente, int idEmpleado, Date fecha, double total) {
         this.id = id;
-        this.id_cliente = id_cliente;
-        this.id_empleado = id_empleado;
-        this.fecha_venta = fecha_venta;
-        this.total_venta = total_venta;
+        this.idCliente = idCliente;
+        this.idEmpleado = idEmpleado;
+        this.fecha = fecha;
+        this.total = total;
     }
 
     public int getId() {
@@ -36,32 +29,36 @@ public class Factura {
         this.id = id;
     }
 
-    public int getId_cliente() {
-        return id_cliente;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setId_cliente(int id_cliente) {
-        this.id_cliente = id_cliente;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public int getId_empleado() {
-        return id_empleado;
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setId_empleado(int id_empleado) {
-        this.id_empleado = id_empleado;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
-    public Date getFecha_venta() {
-        return fecha_venta;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFecha_venta(Date fecha_venta) {
-        this.fecha_venta = fecha_venta;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
-    public double getTotal_venta() {
-        return total_venta;
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
 }

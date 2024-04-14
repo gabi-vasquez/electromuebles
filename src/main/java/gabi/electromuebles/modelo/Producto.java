@@ -9,16 +9,14 @@ public class Producto {
     private String descripcion;
     private int cantidad;
     private double precio;
-    private String url_imagen;
     private String tipo;
 
-    public Producto(int id, String nombre, String descripcion, int cantidad, double precio, String url_imagen, String tipo) {
+    public Producto(int id, String nombre, String descripcion, int cantidad, double precio, String tipo) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
         this.precio = precio;
-        this.url_imagen = url_imagen;
         this.tipo = tipo;
 
     }
@@ -35,19 +33,12 @@ public class Producto {
         this.tipo = tipo;
     }
 
-    public String getUrl_imagen() {
-        return url_imagen;
-    }
-
-    public void setUrl_imagen(String url_imagen) {
-        this.url_imagen = url_imagen;
-    }
 
     public int getId() {
         return id;
     }
 
-    public void setIdentificador(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -35,7 +35,6 @@ public class Producto extends javax.swing.JPanel {
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnAgregarFactura = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(850, 550));
@@ -45,7 +44,8 @@ public class Producto extends javax.swing.JPanel {
 
         btnBuscar.setBackground(new java.awt.Color(102, 255, 102));
         btnBuscar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnBuscar.setText("Buscar");
+        btnBuscar.setText("BUSCAR");
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -54,13 +54,13 @@ public class Producto extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", ""
+                "id", "nombre", "descripcion", "cantidad", "precio", "tipo", "marca", "dimensiones", "material"
             }
         ));
         jTable1.setCellSelectionEnabled(true);
@@ -70,6 +70,7 @@ public class Producto extends javax.swing.JPanel {
         btnNuevo.setBackground(new java.awt.Color(51, 255, 51));
         btnNuevo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnNuevo.setText("NUEVO");
+        btnNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -79,14 +80,12 @@ public class Producto extends javax.swing.JPanel {
         btnEditar.setBackground(new java.awt.Color(51, 255, 51));
         btnEditar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnEditar.setText("EDITAR");
+        btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         btnEliminar.setBackground(new java.awt.Color(51, 255, 51));
         btnEliminar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         btnEliminar.setText("ELIMINAR");
-
-        btnAgregarFactura.setBackground(new java.awt.Color(51, 255, 51));
-        btnAgregarFactura.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnAgregarFactura.setText("Agregar Factura");
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
@@ -95,23 +94,24 @@ public class Producto extends javax.swing.JPanel {
             .addGroup(contentLayout.createSequentialGroup()
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(buscarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(124, 124, 124)
-                        .addComponent(btnBuscar))
-                    .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(btnNuevo)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnEditar)
-                        .addGap(47, 47, 47)
-                        .addComponent(btnEliminar)
-                        .addGap(58, 58, 58)
-                        .addComponent(btnAgregarFactura))
-                    .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(127, Short.MAX_VALUE))
+                        .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(contentLayout.createSequentialGroup()
+                                .addGap(129, 129, 129)
+                                .addComponent(buscarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(124, 124, 124)
+                                .addComponent(btnBuscar))
+                            .addGroup(contentLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(btnNuevo)
+                                .addGap(42, 42, 42)
+                                .addComponent(btnEditar)
+                                .addGap(47, 47, 47)
+                                .addComponent(btnEliminar)))
+                        .addGap(0, 99, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,14 +120,13 @@ public class Producto extends javax.swing.JPanel {
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buscarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
                     .addComponent(btnEditar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnAgregarFactura))
+                    .addComponent(btnEliminar))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
 
@@ -136,13 +135,13 @@ public class Producto extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, 844, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -155,6 +154,7 @@ public class Producto extends javax.swing.JPanel {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
       mostrarPaginaAgregarProducto();
+      
     }//GEN-LAST:event_btnNuevoActionPerformed
     
     public void mostrarPaginaAgregarProducto(){
@@ -169,7 +169,6 @@ public class Producto extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregarFactura;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
