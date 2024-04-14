@@ -34,7 +34,6 @@ public class VistaEmpleado extends javax.swing.JPanel {
         tabla = new javax.swing.JTable();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
 
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -52,15 +51,23 @@ public class VistaEmpleado extends javax.swing.JPanel {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "id", "nombreCompleto", "cedula", "telefono"
+                "id", "nombreCompleto", "cedula", "telefono", "activo"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Long.class, java.lang.Long.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         tabla.setCellSelectionEnabled(true);
         tabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -88,37 +95,25 @@ public class VistaEmpleado extends javax.swing.JPanel {
             }
         });
 
-        btnEliminar.setBackground(new java.awt.Color(51, 255, 51));
-        btnEliminar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        btnEliminar.setText("ELIMINAR");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentLayout.createSequentialGroup()
-                .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(129, 129, 129)
-                        .addComponent(txtbuscarEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)
-                        .addComponent(btnBuscar))
-                    .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(btnNuevo)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnEditar)
-                        .addGap(47, 47, 47)
-                        .addComponent(btnEliminar))
-                    .addGroup(contentLayout.createSequentialGroup()
-                        .addGap(137, 137, 137)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(157, Short.MAX_VALUE))
+                .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 589, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(contentLayout.createSequentialGroup()
+                            .addGap(129, 129, 129)
+                            .addComponent(txtbuscarEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(73, 73, 73)
+                            .addComponent(btnBuscar))
+                        .addGroup(contentLayout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addComponent(btnNuevo)
+                            .addGap(42, 42, 42)
+                            .addComponent(btnEditar))))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,8 +127,7 @@ public class VistaEmpleado extends javax.swing.JPanel {
                 .addGap(59, 59, 59)
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo)
-                    .addComponent(btnEditar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnEditar))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
 
@@ -154,41 +148,24 @@ public class VistaEmpleado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        long cedula = Long.parseLong(txtbuscarEmpleados.getText());
-        Empleado empleado = empleadoDAO.buscarEmpleado(cedula);
-        if (empleado.getId() == 0) {
-            JOptionPane.showMessageDialog(null, "No se encontro ningun empleado con la cedula digitada");
-            return;
-        }
-        String[] nombreColumnas = new String[]{
-            "id", "nombreCompleto", "cedula", "telefono"
-        };
-        String datos[][] = {{Integer.toString(empleado.getId()), empleado.getNombreCompleto(), Long.toString(empleado.getCedula()), Long.toString(empleado.getTelefono())}};
-
-        DefaultTableModel model = new DefaultTableModel(datos, nombreColumnas);
-        model.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    int row = e.getFirstRow();
-                    //int column = e.getColumn();
-                    
-                    Empleado empleado = new Empleado();
-                    
-                    int id = Integer.parseInt(model.getValueAt(row, 0).toString());
-                    String nombre = model.getValueAt(row, 1).toString();
-                    long cedula = Long.parseLong(model.getValueAt(row, 2).toString());
-                    long telefono = Long.parseLong(model.getValueAt(row, 3).toString());
-                    
-                    empleado.setId(id);
-                    empleado.setNombreCompleto(nombre);
-                    empleado.setCedula(cedula);
-                    empleado.setTelefono(telefono);
-                    empleadosActualizar.add(empleado);
-                }
+        try {
+            long cedula = Long.parseLong(txtbuscarEmpleados.getText());
+            Empleado empleado = empleadoDAO.buscarEmpleado(cedula);
+            if (empleado.getId() == 0) {
+                JOptionPane.showMessageDialog(null, "No se encontro ningun empleado con la cedula digitada");
+                return;
             }
-        });
-        tabla.setModel(model);
+            String[] nombreColumnas = new String[]{
+                "id", "nombreCompleto", "cedula", "telefono", "activo"
+            };
+            String datos[][] = {{Integer.toString(empleado.getId()), empleado.getNombreCompleto(), Long.toString(empleado.getCedula()), Long.toString(empleado.getTelefono()), Boolean.toString(empleado.isActivo())}};
+
+            actualizarModelo(datos, nombreColumnas);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Solo puedes buscar con el numero de cedula");
+        }
+
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -196,27 +173,12 @@ public class VistaEmpleado extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        for(int i = 0; i < empleadosActualizar.size(); i++) {
+        for (int i = 0; i < empleadosActualizar.size(); i++) {
             Empleado empleado = empleadosActualizar.get(i);
-            empleadoDAO.actualizarEmpleado(empleado.getId(), empleado.getNombreCompleto(), empleado.getCedula(), empleado.getTelefono());
+            empleadoDAO.actualizarEmpleado(empleado.getId(), empleado.getNombreCompleto(), empleado.getCedula(), empleado.getTelefono(), empleado.isActivo());
         }
         empleadosActualizar.clear();
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(null, "Selecciona la fila a eliminar");
-        }
-        long cedula = Long.parseLong(tabla.getValueAt(filaSeleccionada, 2).toString());
-        System.out.println("Cedula " + cedula);
-        boolean eliminado = empleadoDAO.eliminarEmpleado(cedula);
-        if (eliminado) {
-            JOptionPane.showMessageDialog(null, "Empleado eliminado con exito");
-        } else {
-            JOptionPane.showMessageDialog(null, "No se puede eliminar el Empleado");
-        }
-        filaSeleccionada = -1;
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void seleccionarFila(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seleccionarFila
         filaSeleccionada = tabla.rowAtPoint(evt.getPoint());
@@ -235,8 +197,9 @@ public class VistaEmpleado extends javax.swing.JPanel {
     }
 
     public void cargarEmpleados() {
+        
         String[] nombreColumnas = new String[]{
-            "id", "nombreCompleto", "cedula", "telefono"
+            "id", "nombreCompleto", "cedula", "telefono", "activo"
         };
         String datos[][] = new String[empleados.size()][nombreColumnas.length];
 
@@ -246,37 +209,42 @@ public class VistaEmpleado extends javax.swing.JPanel {
             datos[i][1] = empleado.getNombreCompleto();
             datos[i][2] = Long.toString(empleado.getCedula());
             datos[i][3] = Long.toString(empleado.getTelefono());
+            datos[i][4] = Boolean.toString(empleado.isActivo());
         }
+        actualizarModelo(datos, nombreColumnas);
+    }
+
+    public void actualizarModelo(String[][] datos, String[] nombreColumnas) {
         DefaultTableModel model = new DefaultTableModel(datos, nombreColumnas);
         model.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
-                    int row = e.getFirstRow();
+                    int fila = e.getFirstRow();
                     //int column = e.getColumn();
-                    
+
                     Empleado empleado = new Empleado();
-                    
-                    int id = Integer.parseInt(model.getValueAt(row, 0).toString());
-                    String nombre = model.getValueAt(row, 1).toString();
-                    long cedula = Long.parseLong(model.getValueAt(row, 2).toString());
-                    long telefono = Long.parseLong(model.getValueAt(row, 3).toString());
-                    
+
+                    int id = Integer.parseInt(model.getValueAt(fila, 0).toString());
+                    String nombre = model.getValueAt(fila, 1).toString();
+                    long cedula = Long.parseLong(model.getValueAt(fila, 2).toString());
+                    long telefono = Long.parseLong(model.getValueAt(fila, 3).toString());
+                    boolean activo = Boolean.parseBoolean(model.getValueAt(fila, 4).toString());
+
                     empleado.setId(id);
                     empleado.setNombreCompleto(nombre);
                     empleado.setCedula(cedula);
                     empleado.setTelefono(telefono);
+                    empleado.setActivo(activo);
                     empleadosActualizar.add(empleado);
                 }
             }
         });
         tabla.setModel(model);
-
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JPanel content;
     private javax.swing.JScrollPane jScrollPane2;

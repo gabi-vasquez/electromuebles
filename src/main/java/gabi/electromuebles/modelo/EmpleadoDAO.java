@@ -21,6 +21,7 @@ public class EmpleadoDAO extends DAO{
                 em.setNombreCompleto(rs.getString("nombreCompleto"));
                 em.setCedula(rs.getLong("cedula"));
                 em.setTelefono(rs.getLong("telefono"));
+                em.setActivo(rs.getBoolean("activo"));
                 empleados.add(em);
             }
         } catch (SQLException e) {
@@ -42,6 +43,7 @@ public class EmpleadoDAO extends DAO{
                 em.setNombreCompleto(rs.getString("nombreCompleto"));
                 em.setCedula(rs.getLong("cedula"));
                 em.setTelefono(rs.getLong("telefono"));
+                em.setActivo(rs.getBoolean("activo"));
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al  buscar empleado");
@@ -51,12 +53,13 @@ public class EmpleadoDAO extends DAO{
     
     public Empleado crearEmpleado( String nombreCompleto, long cedula, long telefono){
         Empleado em = new  Empleado();
-        String sql = "INSERT INTO Empleados ( nombreCompleto,cedula,telefono) VALUES (?,?,?)";
+        String sql = "INSERT INTO Empleados ( nombreCompleto,cedula,telefono,activo) VALUES (?,?,?,?)";
         try{
             ps = con.prepareStatement(sql);
             ps.setString(1, nombreCompleto);
             ps.setLong(2, cedula);
             ps.setLong(3, telefono);
+            ps.setBoolean(4, true);
             
             int rowsInserted = ps.executeUpdate();
             if(rowsInserted > 0){
@@ -70,17 +73,18 @@ public class EmpleadoDAO extends DAO{
         return em;
     }
     
-    public Empleado actualizarEmpleado(int id, String nombreCompleto, long cedula, long telefono){
+    public Empleado actualizarEmpleado(int id, String nombreCompleto, long cedula, long telefono, boolean activo){
         
         Empleado em = new  Empleado();
-        String sql = "UPDATE Empleados SET nombreCompleto = ?, cedula = ?, telefono = ? where id = ?";
+        String sql = "UPDATE Empleados SET nombreCompleto = ?, cedula = ?, telefono = ?, activo = ? where id = ?";
         
         try{
             ps = con.prepareStatement(sql);
             ps.setString(1, nombreCompleto);
             ps.setLong(2, cedula);
             ps.setLong(3, telefono);
-            ps.setInt(4, id);
+            ps.setBoolean(4, activo);
+            ps.setInt(5, id);
             
             int rowsUpdated = ps.executeUpdate();
             if(rowsUpdated > 0){

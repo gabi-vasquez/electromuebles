@@ -7,6 +7,7 @@ public abstract class Persona {
     private String nombreCompleto;
     private long cedula;
     private long telefono;
+    private boolean activo;
     
     public Persona(){
     }
@@ -16,6 +17,7 @@ public abstract class Persona {
         this.nombreCompleto = nombreCompleto;
         this.cedula = cedula;
         this.telefono = telefono;
+        this.activo = true;
     }
 
     public int getId() {
@@ -48,6 +50,14 @@ public abstract class Persona {
 
     public void setTelefono(long telefono) {
         this.telefono = telefono;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     
     public abstract void mostrarInformacion();

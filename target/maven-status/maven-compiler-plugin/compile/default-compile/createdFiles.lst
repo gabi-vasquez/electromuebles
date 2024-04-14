@@ -34,7 +34,6 @@ gabi/electromuebles/vista/VistaPrincipal$1.class
 gabi/electromuebles/modelo/Producto.class
 gabi/electromuebles/modelo/ClienteDAO.class
 gabi/electromuebles/modelo/ProductoElectronicoDAO.class
-gabi/electromuebles/vista/VistaEmpleado$7.class
 gabi/electromuebles/modelo/Persona.class
 gabi/electromuebles/Electromuebles.class
 gabi/electromuebles/modelo/FacturaDAO.class
