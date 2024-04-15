@@ -191,7 +191,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         content.repaint();
     }
     public void mostrarPaginaCliente(){
-        Cliente c = new Cliente();
+        VistaCliente c = new VistaCliente();
         c.setSize(1020, 560);
         c.setLocation(0, 0);
         

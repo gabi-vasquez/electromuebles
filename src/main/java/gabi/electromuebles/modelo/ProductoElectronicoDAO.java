@@ -5,6 +5,7 @@
 package gabi.electromuebles.modelo;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,6 +14,31 @@ import javax.swing.JOptionPane;
  */
 public class ProductoElectronicoDAO extends DAO{
     
+     public ArrayList<ProductoElectronico> todosProductosElectronicos() {
+        ArrayList<ProductoElectronico> electronicos = new ArrayList<>();
+        String sql = "SELECT * FROM ProductosElectronicos";
+
+        try {
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductoElectronico pe = new ProductoElectronico();
+                pe.setId(rs.getInt("id"));
+                pe.setNombre(rs.getString("nombre"));
+                pe.setDescripcion(rs.getString("descripcion"));
+                pe.setCantidad(rs.getInt("cantidad"));
+                pe.setPrecio(rs.getDouble("precio"));
+                pe.setTipo(rs.getString("tipo"));
+                pe.setMarca(rs.getString("marca"));
+              
+                electronicos.add(pe);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error al cargar electronicos");
+        }
+        return electronicos;
+    }
+     
     public ProductoElectronico buscarProductoElectronico(String nombre) {
         
         ProductoElectronico pe = new ProductoElectronico();
@@ -38,20 +64,19 @@ public class ProductoElectronicoDAO extends DAO{
         return pe;
     }
     
-    public ProductoElectronico crearProductoElectronico(int id, String nombre, String descripcion, int cantidad, double precio, String tipo, String marca){
+    public ProductoElectronico crearProductoElectronico(String nombre, String descripcion, int cantidad, double precio, String tipo, String marca){
         
         ProductoElectronico pe = new ProductoElectronico();
-        String sql = "INSERT INTO ProductosElectronicos (id, nombre,descripcion, cantidad, precio,tipo, marca) VALUES (?,?,?,?,?,?,?)))";
+        String sql = "INSERT INTO ProductosElectronicos (nombre,descripcion,cantidad, precio,tipo,marca) VALUES (?,?,?,?,?,?)";
         
         try{
             ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.setString(2, nombre);
-            ps.setString(3, descripcion);
-            ps.setInt(4, cantidad);
-            ps.setDouble(5, precio);
-            ps.setString(6, tipo);
-            ps.setString(7,marca);
+            ps.setString(1, nombre);
+            ps.setString(2, descripcion);
+            ps.setInt(3, cantidad);
+            ps.setDouble(4, precio);
+            ps.setString(5, tipo);
+            ps.setString(6,marca);
             
             int rowsInserted = ps.executeUpdate();
             if(rowsInserted > 0){
@@ -59,7 +84,8 @@ public class ProductoElectronicoDAO extends DAO{
             }
 
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error al agregar el producto");
+            JOptionPane.showMessageDialog(null, "Error al agregar el producto a base de datos");
+            System.out.println(e.getMessage());
         }
         return pe;
     }
@@ -67,7 +93,7 @@ public class ProductoElectronicoDAO extends DAO{
     public ProductoElectronico actualizarProductoElectronico(int id, String nombre, String descripcion, int cantidad, double precio, String tipo, String marca){
         
         ProductoElectronico pe = new ProductoElectronico();
-        String sql = "INSERT INTO ProductosElectronicos (id, nombre,descripcion, cantidad, precio,tipo, marca) VALUES (?,?,?,?,?,?,?)))";
+        String sql = "INSERT INTO ProductosElectronicos (id, nombre,descripcion, cantidad, precio,tipo, marca) VALUES (?,?,?,?,?,?,?)";
         
         try{
             ps = con.prepareStatement(sql);
@@ -90,23 +116,23 @@ public class ProductoElectronicoDAO extends DAO{
         return pe;
     }
     
-    public ProductoElectronico eliminarProductoElectronico(int id){
-        
-        ProductoElectronico pe = new ProductoElectronico();
-        String sql = "DELETE FROM ProductosElectronicos (id = ?)";
-        
-        try{
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            
-            int rowsDeleted = ps.executeUpdate();
-            if(rowsDeleted > 0){
-                JOptionPane.showMessageDialog(null, "Producto eliminado con exito");
-            }
-
-        } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
-        }
-        return pe;
-    }
+//    public ProductoElectronico eliminarProductoElectronico(int id){
+//        
+//        ProductoElectronico pe = new ProductoElectronico();
+//        String sql = "DELETE FROM ProductosElectronicos (id = ?)";
+//        
+//        try{
+//            ps = con.prepareStatement(sql);
+//            ps.setInt(1, id);
+//            
+//            int rowsDeleted = ps.executeUpdate();
+//            if(rowsDeleted > 0){
+//                JOptionPane.showMessageDialog(null, "Producto eliminado con exito");
+//            }
+//
+//        } catch(SQLException e){
+//            JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
+//        }
+//        return pe;
+//    }
 }
