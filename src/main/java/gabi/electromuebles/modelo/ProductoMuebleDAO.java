@@ -119,7 +119,7 @@ public class ProductoMuebleDAO extends DAO {
     public ProductoMueble eliminarProductoMueble(int id) {
 
         ProductoMueble pm = new ProductoMueble();
-        String sql = "DELETE FROM ProductosMuebles (id = ?)";
+        String sql = "DELETE FROM ProductosMuebles WHERE (id = ?)";
 
         try {
             ps = con.prepareStatement(sql);

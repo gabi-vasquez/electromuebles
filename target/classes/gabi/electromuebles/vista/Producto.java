@@ -43,7 +43,7 @@ public class Producto extends javax.swing.JPanel {
         tabla = new javax.swing.JTable();
         btnNuevo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -113,10 +113,15 @@ public class Producto extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 102));
-        jButton1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("ELIMINAR");
+        btnEliminar.setBackground(new java.awt.Color(0, 0, 102));
+        btnEliminar.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
@@ -135,7 +140,7 @@ public class Producto extends javax.swing.JPanel {
                         .addGap(42, 42, 42)
                         .addComponent(btnEditar)
                         .addGap(43, 43, 43)
-                        .addComponent(jButton1)))
+                        .addComponent(btnEliminar)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
         contentLayout.setVerticalGroup(
@@ -154,7 +159,7 @@ public class Producto extends javax.swing.JPanel {
                 .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(148, 148, 148))
         );
 
@@ -301,6 +306,21 @@ public class Producto extends javax.swing.JPanel {
            
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try{
+            int filaSeleccionada = tabla.getSelectedRow();
+            String tipo = tabla.getValueAt(filaSeleccionada, 5).toString();
+            int id = Integer.parseInt(tabla.getValueAt(filaSeleccionada,0).toString());
+            if(tipo.equals("Electronico")){
+                peDAO.eliminarProductoElectronico(id);
+            }else{
+                pmDAO.eliminarProductoMueble(id);
+            }
+        }catch(Exception e){
+            System.out.println("Error en la eliminacion del producto");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
     public void mostrarPaginaAgregarProducto() {
         AgregarProducto aP = new AgregarProducto();
         aP.setSize(1020, 1020);
@@ -404,10 +424,10 @@ public class Producto extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JTextField buscarProductos;
     private javax.swing.JPanel content;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;

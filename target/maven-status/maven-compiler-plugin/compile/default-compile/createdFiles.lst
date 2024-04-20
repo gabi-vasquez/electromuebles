@@ -15,11 +15,13 @@ gabi/electromuebles/vista/AgregarEmpleado.class
 gabi/electromuebles/modelo/Cliente.class
 gabi/electromuebles/vista/AgregarCliente.class
 gabi/electromuebles/vista/VistaCliente$1.class
+gabi/electromuebles/vista/Producto$7.class
 gabi/electromuebles/vista/VistaPrincipal$1.class
 gabi/electromuebles/modelo/Producto.class
 gabi/electromuebles/modelo/ClienteDAO.class
 gabi/electromuebles/modelo/ProductoElectronicoDAO.class
 gabi/electromuebles/vista/VistaEmpleado$7.class
+gabi/electromuebles/vista/Factura$5.class
 gabi/electromuebles/Electromuebles.class
 gabi/electromuebles/modelo/FacturaDAO.class
 gabi/electromuebles/vista/Producto$1.class

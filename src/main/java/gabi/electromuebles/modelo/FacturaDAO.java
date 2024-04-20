@@ -29,7 +29,7 @@ public class FacturaDAO extends DAO {
         return fac;
     }
     
-    public Cliente buscarClientes(long cedula){
+    public Cliente buscarCliente(long cedula){
         Cliente c = new Cliente();
         String sql = "SELECT * FROM Clientes WHERE cedula = ? ";
         
@@ -39,6 +39,7 @@ public class FacturaDAO extends DAO {
             rs = ps.executeQuery();
             
             if(rs.next()){
+                c.setId(rs.getInt("id"));
                 c.setCedula(rs.getLong("cedula"));
                 c.setNombreCompleto(rs.getString("nombreCompleto"));
                 c.setDireccion(rs.getString("direccion"));

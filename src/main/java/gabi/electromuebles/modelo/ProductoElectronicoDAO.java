@@ -121,23 +121,23 @@ public class ProductoElectronicoDAO extends DAO{
         return pe;
     }
     
-//    public ProductoElectronico eliminarProductoElectronico(int id){
-//        
-//        ProductoElectronico pe = new ProductoElectronico();
-//        String sql = "DELETE FROM ProductosElectronicos (id = ?)";
-//        
-//        try{
-//            ps = con.prepareStatement(sql);
-//            ps.setInt(1, id);
-//            
-//            int rowsDeleted = ps.executeUpdate();
-//            if(rowsDeleted > 0){
-//                JOptionPane.showMessageDialog(null, "Producto eliminado con exito");
-//            }
-//
-//        } catch(SQLException e){
-//            JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
-//        }
-//        return pe;
-//    }
+    public ProductoElectronico eliminarProductoElectronico(int id){
+        
+        ProductoElectronico pe = new ProductoElectronico();
+        String sql = "DELETE FROM ProductosElectronicos WHERE (id = ?)";
+        
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            int rowsDeleted = ps.executeUpdate();
+            if(rowsDeleted > 0){
+                JOptionPane.showMessageDialog(null, "Producto eliminado con exito");
+            }
+
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
+        }
+        return pe;
+    }
 }
