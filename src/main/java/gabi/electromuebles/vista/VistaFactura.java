@@ -1,6 +1,11 @@
 package gabi.electromuebles.vista;
 
 import gabi.electromuebles.modelo.Cliente;
+import gabi.electromuebles.modelo.DetallesFactura;
+import gabi.electromuebles.modelo.DetallesFacturaDAO;
+import gabi.electromuebles.modelo.Empleado;
+import gabi.electromuebles.modelo.Factura;
+import gabi.electromuebles.modelo.EmpleadoDAO;
 import gabi.electromuebles.modelo.FacturaDAO;
 import gabi.electromuebles.modelo.ProductoElectronicoDAO;
 import gabi.electromuebles.modelo.ProductoMueble;
@@ -12,14 +17,17 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class Factura extends javax.swing.JPanel {
+public class VistaFactura extends javax.swing.JPanel {
 
     FacturaDAO fact = new FacturaDAO();
+    EmpleadoDAO empDAO = new EmpleadoDAO();
     ProductoElectronicoDAO peDAO = new ProductoElectronicoDAO();
     ProductoMuebleDAO pmDAO = new ProductoMuebleDAO();
+    DetallesFacturaDAO dfDAO = new DetallesFacturaDAO();
+    ArrayList<String[]> productos = new ArrayList<>();
     double valorTotal = 0.0;
 
-    public Factura() {
+    public VistaFactura() {
         initComponents();
         cargarFecha();
     }
@@ -111,14 +119,14 @@ public class Factura extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Cant.", "Producto", "Vr. Unit", "Vr. Total"
+                "Id", "Cant.", "Producto", "Vr. Unit", "Vr. Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -157,20 +165,17 @@ public class Factura extends javax.swing.JPanel {
 
         tablaProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Producto", "Vr. Unit", "Tipo", "Cant. Total"
+                "Id", "Producto", "Vr. Unit", "Tipo", "Cant. Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -264,8 +269,8 @@ public class Factura extends javax.swing.JPanel {
                                 .addComponent(btnAgregarFactura)
                                 .addGap(172, 172, 172))
                             .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                .addGap(63, 63, 63)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
             .addGroup(txtBuscarProduLayout.createSequentialGroup()
                 .addGap(409, 409, 409)
@@ -340,9 +345,9 @@ public class Factura extends javax.swing.JPanel {
                             .addComponent(jLabel9)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
-                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnAgregarFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(btnGenerarFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnGenerarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarFactura))
                 .addGap(1355, 1355, 1355))
         );
 
@@ -365,23 +370,63 @@ public class Factura extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGenerarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarFacturaActionPerformed
-        int idCliente = Integer.parseInt(txtId.getText());
+        try {
+            String nombreEmpleado = txtRecibi.getText();
+            Empleado empleado = empDAO.buscarEmpleadoPorNombre(nombreEmpleado);
+            if (empleado.getId() == 0) {
+                JOptionPane.showMessageDialog(null, "Empleado NO encontrado");
+                return;
+            }
+            int idCliente = Integer.parseInt(txtId.getText());
+            int idEmpleado = empleado.getId();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date fecha = formatter.parse(txtFecha.getText());
+            Factura factura = fact.crearFactura(idCliente, idEmpleado, fecha, valorTotal);
+            if(factura.getId() == 0){
+                JOptionPane.showMessageDialog(null, "No se pudo generar la factura -> ID");
+                return;
+            }
+            
+            for(int i = 0; i < productos.size(); i++) {
+                String[] infoProducto = productos.get(i);
+                if(infoProducto[1].equals("Electronico")) {
+                    int id = Integer.parseInt(infoProducto[0]);
+                    int cantidad = Integer.parseInt(infoProducto[2]);
+                    int cantidadTotal = Integer.parseInt(infoProducto[3]);
+                    peDAO.actualizarCatidad(id, cantidadTotal - cantidad);
+                    dfDAO.crearDetallesFactura(factura.getId(), id, 0, cantidad, Double.parseDouble(infoProducto[4]), Double.parseDouble(infoProducto[5]));
+                } else {
+                    int id = Integer.parseInt(infoProducto[0]);
+                    int cantidad = Integer.parseInt(infoProducto[2]);
+                    int cantidadTotal = Integer.parseInt(infoProducto[3]);
+                    pmDAO.actualizarCatidad(id, cantidadTotal - cantidad);
+                    dfDAO.crearDetallesFactura(factura.getId(), 0, id, cantidad, Double.parseDouble(infoProducto[4]), Double.parseDouble(infoProducto[5]));
+                }
+            }
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al generar la factura");
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_btnGenerarFacturaActionPerformed
 
     private void btnAgregarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarFacturaActionPerformed
         try {
             int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingresa la cantidad de productos que deseas agegar a la facura"));
             int filaSeleccionada = tablaProducto.getSelectedRow();
-            String nombre = tablaProducto.getValueAt(filaSeleccionada, 0).toString();
-            double valorUnitario = Double.parseDouble(tablaProducto.getValueAt(filaSeleccionada, 1).toString());
-            int cantidadTotal = Integer.parseInt(tablaProducto.getValueAt(filaSeleccionada, 3).toString());
-            if(cantidad > cantidadTotal) {
+            int id = Integer.parseInt(tablaProducto.getValueAt(filaSeleccionada, 0).toString());
+            String nombre = tablaProducto.getValueAt(filaSeleccionada, 1).toString();
+            double valorUnitario = Double.parseDouble(tablaProducto.getValueAt(filaSeleccionada, 2).toString());
+            String tipo = tablaProducto.getValueAt(filaSeleccionada, 3).toString();
+            int cantidadTotal = Integer.parseInt(tablaProducto.getValueAt(filaSeleccionada, 4).toString());
+            if (cantidad > cantidadTotal) {
                 JOptionPane.showMessageDialog(null, "Cantidad de productos no disponibles");
                 return;
             }
-            
+
             String[] nombreColumnas = new String[]{
-                "Cant.", "Producto", "Vr. Unit", "Vr. Total"
+                "Id", "Cant.", "Producto", "Vr. Unit", "Vr. Total"
             };
             int cantidadFilas = tablaFactura.getModel().getRowCount();
             int cantidadColumnas = nombreColumnas.length;
@@ -393,21 +438,32 @@ public class Factura extends javax.swing.JPanel {
                     datos[i][j] = valor;
                 }
             }
-            
+
             double valorTotalProducto = cantidad * valorUnitario;
             valorTotal += valorTotalProducto;
             
-            datos[cantidadFilas][0] = Integer.toString(cantidad);
-            datos[cantidadFilas][1] = nombre;
-            datos[cantidadFilas][2] = Double.toString(valorUnitario);
-            datos[cantidadFilas][3] = Double.toString(valorTotalProducto);
+            String producto[] = {
+                Integer.toString(id),
+                tipo, 
+                Integer.toString(cantidad), 
+                Integer.toString(cantidadTotal),
+                Double.toString(valorUnitario),
+                Double.toString(valorTotalProducto),
+            };
+            productos.add(producto);
+            
+            datos[cantidadFilas][0] = Integer.toString(id);
+            datos[cantidadFilas][1] = Integer.toString(cantidad);
+            datos[cantidadFilas][2] = nombre;
+            datos[cantidadFilas][3] = Double.toString(valorUnitario);
+            datos[cantidadFilas][4] = Double.toString(valorTotalProducto);
 
             DefaultTableModel model = new javax.swing.table.DefaultTableModel(
                     datos,
                     nombreColumnas
             ) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false
+                    false, false, false, false, false
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -453,22 +509,24 @@ public class Factura extends javax.swing.JPanel {
                 return;
             }
             String[] nombreColumnas = new String[]{
-                "nombre", "precio", "tipo", "Cant. Total"
+                "Id", "Producto", "Vr. Unit", "Tipo", "Cant. Total"
             };
             String datos[][] = new String[electronicos.size() + muebles.size()][nombreColumnas.length];
             for (int i = 0; i < electronicos.size(); i++) {
                 ProductoElectronico pe = electronicos.get(i);
-                datos[i][0] = pe.getNombre();
-                datos[i][1] = Double.toString(pe.getPrecio());
-                datos[i][2] = pe.getTipo();
-                datos[i][3] = Integer.toString(pe.getCantidad());
+                datos[i][0] = Integer.toString(pe.getId());
+                datos[i][1] = pe.getNombre();
+                datos[i][2] = Double.toString(pe.getPrecio());
+                datos[i][3] = pe.getTipo();
+                datos[i][4] = Integer.toString(pe.getCantidad());
             }
             for (int i = electronicos.size(); i < electronicos.size() + muebles.size(); i++) {
                 ProductoMueble pm = muebles.get(i - electronicos.size());
-                datos[i][0] = pm.getNombre();
-                datos[i][1] = Double.toString(pm.getPrecio());
-                datos[i][2] = pm.getTipo();
-                datos[i][3] = Integer.toString(pm.getCantidad());
+                datos[i][0] = Integer.toString(pm.getId());
+                datos[i][1] = pm.getNombre();
+                datos[i][2] = Double.toString(pm.getPrecio());
+                datos[i][3] = pm.getTipo();
+                datos[i][4] = Integer.toString(pm.getCantidad());
             }
             DefaultTableModel model = new DefaultTableModel(datos, nombreColumnas);
             tablaProducto.setModel(model);

@@ -1,5 +1,6 @@
 package gabi.electromuebles.modelo;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -25,7 +26,7 @@ public class ProductoMuebleDAO extends DAO {
                 pm.setMaterial(rs.getString("material"));
                 muebles.add(pm);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al cargar muebles");
         }
         return muebles;
@@ -34,7 +35,6 @@ public class ProductoMuebleDAO extends DAO {
     public ArrayList<ProductoMueble> buscarProductoMueble(String nombre) {
         ArrayList<ProductoMueble> muebles = new ArrayList<>();
 
-        
         String sql = "SELECT * FROM ProductosMuebles WHERE nombre = ? ";
 
         try {
@@ -77,6 +77,11 @@ public class ProductoMuebleDAO extends DAO {
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
+                ResultSet keyset = ps.getGeneratedKeys();
+                if (keyset.next()) {
+                    int idGenerado = keyset.getInt(1);
+                    pm.setId(idGenerado);
+                }
                 JOptionPane.showMessageDialog(null, "Producto agregado con exito");
             }
 
@@ -102,7 +107,7 @@ public class ProductoMuebleDAO extends DAO {
             ps.setString(6, tipo);
             ps.setString(7, dimensiones);
             ps.setString(8, material);
-            ps.setInt(9,id);
+            ps.setInt(9, id);
 
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
@@ -111,6 +116,28 @@ public class ProductoMuebleDAO extends DAO {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el producto");
+            System.out.println(e);
+        }
+        return pm;
+    }
+
+    public ProductoMueble actualizarCatidad(int id, int cantidad) {
+
+        ProductoMueble pm = new ProductoMueble();
+        String sql = "UPDATE ProductosMuebles SET cantidad=? WHERE id = ?";
+
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setInt(2, id);
+
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Producto mueble actualizado con exito");
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el producto mueble");
             System.out.println(e);
         }
         return pm;

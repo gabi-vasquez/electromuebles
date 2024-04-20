@@ -1,5 +1,6 @@
 package gabi.electromuebles.modelo;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -46,7 +47,7 @@ public class ClienteDAO extends DAO {
                 c.setTelefono(rs.getLong("telefono"));
                 c.setDireccion(rs.getString("direccion"));
                 c.setTipoCliente(rs.getString("tipoCliente"));
-                
+
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al  buscar cliente");
@@ -67,6 +68,11 @@ public class ClienteDAO extends DAO {
 
             int rowsInserted = ps.executeUpdate();
             if (rowsInserted > 0) {
+                ResultSet keyset = ps.getGeneratedKeys();
+                if (keyset.next()) {
+                    int idGenerado = keyset.getInt(1);
+                    c.setId(idGenerado);
+                }
                 JOptionPane.showMessageDialog(null, "Cliente agregado con exito");
             }
 
@@ -76,7 +82,7 @@ public class ClienteDAO extends DAO {
         return c;
     }
 
-    public Cliente actualizarCliente(int id, String nombreCompleto, long cedula, long telefono, String direccion,String tipoCliente) {
+    public Cliente actualizarCliente(int id, String nombreCompleto, long cedula, long telefono, String direccion, String tipoCliente) {
         Cliente c = new Cliente();
         String sql = "UPDATE Clientes SET nombreCompleto = ?, cedula = ?, telefono = ?,direccion = ?, tipoCliente = ? WHERE id = ?";
         try {
@@ -99,19 +105,19 @@ public class ClienteDAO extends DAO {
         return c;
     }
 
-    public Cliente eliminarCliente(long cedula){
-        Cliente c = new  Cliente();
+    public Cliente eliminarCliente(long cedula) {
+        Cliente c = new Cliente();
         String sql = "DELETE FROM Clientes WHERE cedula = ?";
-        try{
+        try {
             ps = con.prepareStatement(sql);
             ps.setLong(1, cedula);
-            
+
             int rowsDeleted = ps.executeUpdate();
-            if(rowsDeleted > 0){
+            if (rowsDeleted > 0) {
                 JOptionPane.showMessageDialog(null, "Cliente eliminado con exito");
             }
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "No se puede eliminar el cliente");
         }
         return c;

@@ -1,8 +1,6 @@
 gabi/electromuebles/vista/VistaLogin$3.class
-gabi/electromuebles/vista/Factura$4.class
 gabi/electromuebles/vista/AgregarProducto$1.class
 gabi/electromuebles/modelo/EmpleadoDAO.class
-gabi/electromuebles/vista/Factura.class
 gabi/electromuebles/vista/VistaPrincipal$2.class
 gabi/electromuebles/modelo/DetallesFactura.class
 gabi/electromuebles/modelo/Login.class
@@ -11,6 +9,8 @@ gabi/electromuebles/vista/VistaLogin.class
 gabi/electromuebles/modelo/LoginDAO.class
 gabi/electromuebles/vista/Producto$6.class
 gabi/electromuebles/vista/VistaEmpleado$1.class
+gabi/electromuebles/vista/VistaFactura$3.class
+gabi/electromuebles/vista/VistaFactura$6.class
 gabi/electromuebles/vista/AgregarEmpleado.class
 gabi/electromuebles/modelo/Cliente.class
 gabi/electromuebles/vista/AgregarCliente.class
@@ -21,7 +21,8 @@ gabi/electromuebles/modelo/Producto.class
 gabi/electromuebles/modelo/ClienteDAO.class
 gabi/electromuebles/modelo/ProductoElectronicoDAO.class
 gabi/electromuebles/vista/VistaEmpleado$7.class
-gabi/electromuebles/vista/Factura$5.class
+gabi/electromuebles/vista/VistaFactura$5.class
+gabi/electromuebles/vista/VistaFactura$4.class
 gabi/electromuebles/Electromuebles.class
 gabi/electromuebles/modelo/FacturaDAO.class
 gabi/electromuebles/vista/Producto$1.class
@@ -37,10 +38,11 @@ gabi/electromuebles/modelo/ProductoMueble.class
 gabi/electromuebles/controlador/MySqlConexion.class
 gabi/electromuebles/vista/VistaPrincipal.class
 gabi/electromuebles/vista/Producto$5.class
+gabi/electromuebles/vista/VistaFactura$2.class
+gabi/electromuebles/vista/VistaFactura$7.class
 gabi/electromuebles/vista/AgregarCliente$1.class
 gabi/electromuebles/modelo/Empleado.class
 gabi/electromuebles/vista/VistaEmpleado$2.class
-gabi/electromuebles/vista/Factura$3.class
 gabi/electromuebles/modelo/ProductoMuebleDAO.class
 gabi/electromuebles/vista/VistaEmpleado$5.class
 gabi/electromuebles/vista/AgregarProducto$2.class
@@ -49,7 +51,7 @@ gabi/electromuebles/vista/VistaCliente$6.class
 gabi/electromuebles/modelo/ProductoElectronico.class
 gabi/electromuebles/vista/VistaPrincipal$3.class
 gabi/electromuebles/vista/VistaPrincipal$4.class
-gabi/electromuebles/vista/Factura$2.class
+gabi/electromuebles/vista/VistaFactura$1.class
 gabi/electromuebles/vista/VistaEmpleado.class
 gabi/electromuebles/vista/VistaEmpleado$4.class
 gabi/electromuebles/vista/Producto$3.class
@@ -60,5 +62,5 @@ gabi/electromuebles/vista/VistaCliente$4.class
 gabi/electromuebles/vista/AgregarProducto.class
 gabi/electromuebles/vista/VistaEmpleado$3.class
 gabi/electromuebles/vista/Producto$4.class
+gabi/electromuebles/vista/VistaFactura.class
 gabi/electromuebles/modelo/Factura.class
-gabi/electromuebles/vista/Factura$1.class

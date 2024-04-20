@@ -38,17 +38,26 @@ public class DetallesFacturaDAO extends DAO{
         return df;
     }
     
-    public DetallesFactura crearDetallesFactura(int id, int idFactura, int idProductoElectronico,int idProductoMueble,int cantidad, double precioUnitario,double subtotal){
+    public DetallesFactura crearDetallesFactura(int idFactura, int idProductoElectronico,int idProductoMueble,int cantidad, double precioUnitario, double subtotal){
        
         DetallesFactura df = new DetallesFactura();
-        String sql = "INSERT INTO DetallesFactura WHERE id, idFactura, idProducto, cantidad, precioUnitario, subtotal) VALUES (?,?,?,?,?,?) ";
+        String sql = "INSERT INTO DetallesFactura (idFactura, idProductoElectronico, idProductoMueble, cantidad, precioUnitario, subtotal) VALUES (?,?,?,?,?,?) ";
         
         try{
             ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.setInt(2, idFactura);
-            ps.setInt(3, idProductoElectronico);
-            ps.setInt(4, idProductoMueble);
+            ps.setInt(1, idFactura);
+            if(idProductoElectronico == 0) {
+                ps.setString(2, null);
+            } else {
+                ps.setInt(2, idProductoElectronico);
+            }
+            if(idProductoMueble == 0) {
+                ps.setString(3, null);
+
+            } else {
+                ps.setInt(3, idProductoMueble);
+
+            }
             ps.setInt(4, cantidad);
             ps.setDouble(5, precioUnitario);
             ps.setDouble(6, subtotal);
@@ -60,6 +69,7 @@ public class DetallesFacturaDAO extends DAO{
 
         } catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error al agregar los detalles de la factura");
+            System.out.println(e.getMessage());
         }
         return df;
     }

@@ -1,6 +1,7 @@
 
 package gabi.electromuebles.modelo;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -28,6 +29,27 @@ public class EmpleadoDAO extends DAO{
             JOptionPane.showMessageDialog(null, "Error al  cargar empleados");
         }
         return empleados;
+    }
+    
+    public Empleado buscarEmpleadoPorNombre(String nombre) {
+        Empleado em = new Empleado();
+        String sql = "SELECT * FROM Empleados WHERE nombreCompleto = ? ";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                em.setId(rs.getInt("id"));
+                em.setNombreCompleto(rs.getString("nombreCompleto"));
+                em.setCedula(rs.getLong("cedula"));
+                em.setTelefono(rs.getLong("telefono"));
+                em.setActivo(rs.getBoolean("activo"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al  buscar empleado");
+        }
+        return em;
     }
     
     public Empleado buscarEmpleado(long cedula) {
@@ -88,6 +110,11 @@ public class EmpleadoDAO extends DAO{
             
             int rowsUpdated = ps.executeUpdate();
             if(rowsUpdated > 0){
+                ResultSet keyset = ps.getGeneratedKeys();
+            if (keyset.next()) {
+                int idGenerado = keyset.getInt(1);
+                em.setId(idGenerado);
+            }
                 JOptionPane.showMessageDialog(null, "Empleado actualizado con exito");
             }
 

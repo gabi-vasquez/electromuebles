@@ -2,29 +2,21 @@
 package gabi.electromuebles.modelo;
 
 
-public class ProductoElectronico extends Producto{
+public class ProductoElectronico extends Producto {
     
     private final double iva = 0.14;
-    private double precio;
     private String marca;
     
     public ProductoElectronico(){
     }
-    public ProductoElectronico(double precio){
-        this.precio = precio;
-    }
+    
     public ProductoElectronico(int id, String nombre, String descripcion,double precio, int cantidad, String tipo, String marca) {
-        super(id, nombre, descripcion, cantidad, tipo);
+        super(id, nombre, descripcion, cantidad, tipo, precio);
         this.marca = marca;
-        this.precio = precio;
     }
     
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public ProductoElectronico(double precio) {
+        super.precio = precio;
     }
  
 

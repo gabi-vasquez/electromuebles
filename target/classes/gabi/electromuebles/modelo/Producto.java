@@ -4,19 +4,21 @@ package gabi.electromuebles.modelo;
 
 public abstract class Producto {
 
-    private int id;
-    private String nombre;
-    private String descripcion;
-    private int cantidad;
-    private String tipo;
+    protected int id;
+    protected String nombre;
+    protected String descripcion;
+    protected int cantidad;
+    protected String tipo;
+    protected double precio;
 
-    public Producto(int id, String nombre, String descripcion, int cantidad, String tipo) {
+
+    public Producto(int id, String nombre, String descripcion, int cantidad, String tipo, double precio) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
         this.tipo = tipo;
-
+        this.precio = precio;
     }
     
     public Producto(){
@@ -62,6 +64,14 @@ public abstract class Producto {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
     
     public abstract double calcularPrecio();

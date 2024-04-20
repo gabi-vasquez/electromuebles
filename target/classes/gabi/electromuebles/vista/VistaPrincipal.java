@@ -219,7 +219,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         content.repaint();
     }
     public void mostrarPaginaFactura(){
-        Factura f = new Factura();
+        VistaFactura f = new VistaFactura();
         f.setSize(1020, 560);
         f.setLocation(0, 0);
         

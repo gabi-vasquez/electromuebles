@@ -1,13 +1,12 @@
 
 package gabi.electromuebles.modelo;
 
-public class ProductoMueble extends Producto{
+public class ProductoMueble extends Producto {
     
     private String dimensiones;
     private String material;
     private double manoObra;
     private double ganancia;
-    private double precio;
 
     public ProductoMueble(){
     }
@@ -17,8 +16,8 @@ public class ProductoMueble extends Producto{
         this.ganancia = ganancia;
         this.precio = precioMateriales;
     }
-    public ProductoMueble(int id, String nombre, String descripcion, int cantidad, double manoObra, double ganancia, String tipo, String dimensiones, String material) {
-        super(id, nombre, descripcion, cantidad, tipo);
+    public ProductoMueble(int id, String nombre, String descripcion, int cantidad, double precio, double manoObra, double ganancia, String tipo, String dimensiones, String material) {
+        super(id, nombre, descripcion, cantidad, tipo , precio);
         this.dimensiones = dimensiones;
         this.material = material;
         this.manoObra = manoObra;
