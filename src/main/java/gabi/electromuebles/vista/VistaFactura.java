@@ -1,7 +1,20 @@
 package gabi.electromuebles.vista;
 
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import gabi.electromuebles.modelo.Cliente;
-import gabi.electromuebles.modelo.DetallesFactura;
 import gabi.electromuebles.modelo.DetallesFacturaDAO;
 import gabi.electromuebles.modelo.Empleado;
 import gabi.electromuebles.modelo.Factura;
@@ -11,9 +24,18 @@ import gabi.electromuebles.modelo.ProductoElectronicoDAO;
 import gabi.electromuebles.modelo.ProductoMueble;
 import gabi.electromuebles.modelo.ProductoElectronico;
 import gabi.electromuebles.modelo.ProductoMuebleDAO;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
+import java.util.stream.Stream;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,6 +48,8 @@ public class VistaFactura extends javax.swing.JPanel {
     DetallesFacturaDAO dfDAO = new DetallesFacturaDAO();
     ArrayList<String[]> productos = new ArrayList<>();
     double valorTotal = 0.0;
+    private static Font catFont = new Font(Font.FontFamily.HELVETICA, 18,
+            Font.BOLD);
 
     public VistaFactura() {
         initComponents();
@@ -67,6 +91,7 @@ public class VistaFactura extends javax.swing.JPanel {
         btnAgregarFactura = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtTelefonoCli = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         buttonGroup1.add(rbMayo);
         buttonGroup1.add(rbMino);
@@ -119,7 +144,7 @@ public class VistaFactura extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Id", "Cant.", "Producto", "Vr. Unit", "Vr. Total"
+                "Id", "Producto", "Cant.", "Vr. Unit", "Vr. Total"
             }
         ) {
             Class[] types = new Class [] {
@@ -214,6 +239,8 @@ public class VistaFactura extends javax.swing.JPanel {
         txtTelefonoCli.setMinimumSize(new java.awt.Dimension(170, 30));
         txtTelefonoCli.setVerifyInputWhenFocusTarget(false);
 
+        jLabel4.setText("Para buscar productos ingresa el nombre. ");
+
         javax.swing.GroupLayout txtBuscarProduLayout = new javax.swing.GroupLayout(txtBuscarProdu);
         txtBuscarProdu.setLayout(txtBuscarProduLayout);
         txtBuscarProduLayout.setHorizontalGroup(
@@ -221,120 +248,115 @@ public class VistaFactura extends javax.swing.JPanel {
             .addGroup(txtBuscarProduLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                            .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel10))
+                            .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtNombreCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtCedulaBuscarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(txtDireccionCl, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtBuscarProduLayout.createSequentialGroup()
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtTelefonoCli, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                            .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnGenerarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                                    .addComponent(jLabel9)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtRecibi, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel8)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtTotalFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel10))
-                                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(txtNombreCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(txtCedulaBuscarCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addComponent(txtDireccionCl, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtBuscarProduLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtTelefonoCli, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(60, 60, 60)
-                        .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(157, 307, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                        .addComponent(btnAgregarFactura)
+                        .addGap(172, 172, 172))
                     .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnGenerarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtRecibi, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel8)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtTotalFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                                .addComponent(btnAgregarFactura)
-                                .addGap(172, 172, 172))
+                                .addGap(60, 60, 60)
+                                .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addGap(33, 33, 33)
+                                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtBuscarProduLayout.createSequentialGroup()
+                                        .addGap(36, 36, 36)
+                                        .addComponent(txtNombrepBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(btnBuscarProducto)
+                                        .addGap(63, 63, 63))
+                                    .addComponent(jLabel4))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(txtBuscarProduLayout.createSequentialGroup()
                 .addGap(409, 409, 409)
                 .addComponent(jLabel7)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtBuscarProduLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                        .addComponent(rbMino)
-                        .addGap(34, 34, 34)
-                        .addComponent(rbMayo))
-                    .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                        .addComponent(txtNombrepBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnBuscarProducto)))
-                .addGap(134, 134, 134))
+                .addComponent(rbMino)
+                .addGap(34, 34, 34)
+                .addComponent(rbMayo)
+                .addGap(231, 231, 231))
         );
         txtBuscarProduLayout.setVerticalGroup(
             txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(txtBuscarProduLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel7)
+                .addGap(3, 3, 3)
+                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCedulaBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(rbMino)
+                            .addComponent(rbMayo))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDireccionCl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(txtBuscarProduLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtCedulaBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtNombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(rbMino)
-                                    .addComponent(rbMayo))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtDireccionCl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(txtTelefonoCli, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtBuscarProduLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombrepBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)))
-                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,13 +364,19 @@ public class VistaFactura extends javax.swing.JPanel {
                                 .addComponent(txtTotalFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtRecibi, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel8)
-                            .addComponent(jLabel9)))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
-                .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnGenerarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregarFactura))
-                .addGap(1355, 1355, 1355))
+                            .addComponent(jLabel9))
+                        .addGap(44, 44, 44)
+                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnGenerarFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarFactura))
+                        .addGap(1355, 1355, 1355))
+                    .addGroup(txtBuscarProduLayout.createSequentialGroup()
+                        .addGroup(txtBuscarProduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNombrepBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jScrollPane2.setViewportView(txtBuscarProdu);
@@ -382,29 +410,46 @@ public class VistaFactura extends javax.swing.JPanel {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date fecha = formatter.parse(txtFecha.getText());
             Factura factura = fact.crearFactura(idCliente, idEmpleado, fecha, valorTotal);
-            if(factura.getId() == 0){
+            if (factura.getId() == 0) {
                 JOptionPane.showMessageDialog(null, "No se pudo generar la factura -> ID");
                 return;
             }
-            
-            for(int i = 0; i < productos.size(); i++) {
+
+            for (int i = 0; i < productos.size(); i++) {
                 String[] infoProducto = productos.get(i);
-                if(infoProducto[1].equals("Electronico")) {
+                if (infoProducto[1].equals("Electronico")) {
                     int id = Integer.parseInt(infoProducto[0]);
                     int cantidad = Integer.parseInt(infoProducto[2]);
                     int cantidadTotal = Integer.parseInt(infoProducto[3]);
                     peDAO.actualizarCatidad(id, cantidadTotal - cantidad);
-                    dfDAO.crearDetallesFactura(factura.getId(), id, 0, cantidad, Double.parseDouble(infoProducto[4]), Double.parseDouble(infoProducto[5]));
+                    dfDAO.crearDetallesFactura(factura.getId(),cantidad, Double.parseDouble(infoProducto[4]), id );
                 } else {
                     int id = Integer.parseInt(infoProducto[0]);
                     int cantidad = Integer.parseInt(infoProducto[2]);
                     int cantidadTotal = Integer.parseInt(infoProducto[3]);
-                    pmDAO.actualizarCatidad(id, cantidadTotal - cantidad);
-                    dfDAO.crearDetallesFactura(factura.getId(), 0, id, cantidad, Double.parseDouble(infoProducto[4]), Double.parseDouble(infoProducto[5]));
+                    pmDAO.actualizarCatidad(id, cantidadTotal - cantidad); 
+                    dfDAO.crearDetallesFactura(factura.getId(),cantidad, Double.parseDouble(infoProducto[4]),id);
                 }
+                   
             }
-            
-            
+
+            // TODO: Extaer la informacion the tablaFactura.getModel() usando un for getRowCount y getColumnCount. tablaFactura.getModel().getValueAt
+            // tablaFactura.getModel().getValueAt(WIDTH, idCliente)
+            ArrayList<String[]> prods = new ArrayList<>();
+
+            for (int i = 0; i < tablaFactura.getModel().getRowCount(); i++) {
+                String id = tablaFactura.getModel().getValueAt(i, 0).toString();
+                String producto = tablaFactura.getModel().getValueAt(i, 1).toString();
+                String cantidad = tablaFactura.getModel().getValueAt(i, 2).toString();
+                String unitario = tablaFactura.getModel().getValueAt(i, 3).toString();
+                String total = tablaFactura.getModel().getValueAt(i, 4).toString();
+                prods.add(new String[]{id, producto,cantidad, unitario, total});
+            }
+            String cliente = txtNombreCliente.getText();
+            String direccion = txtDireccionCl.getText();
+            String telefono = txtTelefonoCli.getText();
+            String total = txtTotalFactura.getText();
+            crearPDF(Integer.toString(idCliente), cliente, direccion, telefono, nombreEmpleado, total, prods);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al generar la factura");
             System.out.println(e.getMessage());
@@ -426,7 +471,7 @@ public class VistaFactura extends javax.swing.JPanel {
             }
 
             String[] nombreColumnas = new String[]{
-                "Id", "Cant.", "Producto", "Vr. Unit", "Vr. Total"
+                "Id", "Producto","Cant.", "Vr. Unit", "Vr. Total"
             };
             int cantidadFilas = tablaFactura.getModel().getRowCount();
             int cantidadColumnas = nombreColumnas.length;
@@ -441,20 +486,19 @@ public class VistaFactura extends javax.swing.JPanel {
 
             double valorTotalProducto = cantidad * valorUnitario;
             valorTotal += valorTotalProducto;
-            
+
             String producto[] = {
                 Integer.toString(id),
-                tipo, 
-                Integer.toString(cantidad), 
+                tipo,
+                Integer.toString(cantidad),
                 Integer.toString(cantidadTotal),
                 Double.toString(valorUnitario),
-                Double.toString(valorTotalProducto),
-            };
+                Double.toString(valorTotalProducto),};
             productos.add(producto);
-            
+
             datos[cantidadFilas][0] = Integer.toString(id);
-            datos[cantidadFilas][1] = Integer.toString(cantidad);
-            datos[cantidadFilas][2] = nombre;
+            datos[cantidadFilas][1] = nombre;
+            datos[cantidadFilas][2] = Integer.toString(cantidad);
             datos[cantidadFilas][3] = Double.toString(valorUnitario);
             datos[cantidadFilas][4] = Double.toString(valorTotalProducto);
 
@@ -540,6 +584,105 @@ public class VistaFactura extends javax.swing.JPanel {
     public void cargarFecha() {
         txtFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
     }
+
+    public void crearPDF(String idCliente, String cliente, String direccion, String telefono, String empleado, String total, ArrayList<String[]> productos) throws FileNotFoundException, DocumentException, URISyntaxException, BadElementException, IOException {
+        Document document = new Document();
+        SimpleDateFormat formatoFechaHora = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        Date fechaHoraActual = new Date();
+        String filePath = "facturas/factura_" + formatoFechaHora.format(fechaHoraActual) + ".pdf";
+        File file = new File(filePath);
+
+        PdfWriter.getInstance(document, new FileOutputStream(file));
+
+        document.open();
+
+        addTitlePage(document);
+
+        Paragraph infoFactura = new Paragraph();
+        String fechaActual = txtFecha.getText();
+
+        infoFactura.add(new Paragraph("Fecha: " + fechaActual, catFont));
+        infoFactura.add(new Paragraph("Id: " + idCliente, catFont));
+        infoFactura.add(new Paragraph("Cliente: " + cliente, catFont));
+        infoFactura.add(new Paragraph("Direccion: " + direccion, catFont));
+        infoFactura.add(new Paragraph("Telefono: " + telefono, catFont));
+        addEmptyLines(infoFactura, 5);
+
+        PdfPTable table = new PdfPTable(5);
+        addTableHeader(table);
+        addRows(table, productos);
+
+        Paragraph infoFacturaResto = new Paragraph();
+        addEmptyLines(infoFacturaResto, 5);
+        infoFacturaResto.add(new Paragraph("Total: " + total, catFont));
+        addEmptyLines(infoFacturaResto, 5);
+        infoFacturaResto.add(new Paragraph("Empleado: " + empleado, catFont));
+
+        document.add(infoFactura);
+        document.add(table);
+        document.add(infoFacturaResto);
+        document.close();
+
+        openPdf(filePath);
+
+    }
+
+    private void addTitlePage(Document document)
+            throws DocumentException {
+        Paragraph preface = new Paragraph();
+        addEmptyLines(preface, 1);
+
+        preface.add(new Paragraph("Factura de Venta", catFont));
+
+        addEmptyLines(preface, 1);
+
+        document.add(preface);
+    }
+
+    private void addEmptyLines(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+
+    private void addTableHeader(PdfPTable table) {
+        Stream.of("Id", "Producto", "Cant", "Vr. Unit", "Vr. Total")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(2);
+                    header.setPhrase(new Phrase(columnTitle));
+                    header.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(header);
+                });
+    }
+
+    private void addRows(PdfPTable table, ArrayList<String[]> productos) {
+        for (String[] producto : productos) {
+            table.addCell(producto[0]);
+            table.addCell(producto[1]);
+            table.addCell(producto[2]);
+            table.addCell(producto[3]);
+            table.addCell(producto[4]);
+        }
+    }
+
+    private void openPdf(String filePath) {
+//        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+//            try {
+//                Desktop.getDesktop().open(file);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            System.out.println("Desktop API not supported");
+//        }
+        try {
+            Runtime.getRuntime().exec("evince " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarFactura;
     private javax.swing.JButton btnBuscarCliente;
@@ -550,6 +693,7 @@ public class VistaFactura extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

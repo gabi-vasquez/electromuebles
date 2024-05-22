@@ -5,20 +5,18 @@ public class DetallesFactura {
 
     int id;
     int idFactura;
-    int idProductoElectronico;
-    int idProductoMueble;
     int cantidad;
     double precioUnitario;
     double subtotal;
+    int idProducto;
     
     public DetallesFactura(){      
     }
     
-    public DetallesFactura(int id, int idFactura, int idProductoElectronico,int idProductoMueble, int cantidad, double precioUnitario, double subtotal) {
+    public DetallesFactura(int id, int idProducto, int cantidad, double precioUnitario, double subtotal) {
         this.id = id;
         this.idFactura = idFactura;
-        this.idProductoElectronico = idProductoElectronico;
-        this.idProductoMueble = idProductoMueble;
+        this.idProducto = idProducto;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         this.subtotal = subtotal;
@@ -40,21 +38,16 @@ public class DetallesFactura {
         this.idFactura = idFactura;
     }
 
-    public int getIdProductoElectronico() {
-        return idProductoElectronico;
+    public int getIdProducto() {
+        return idProducto;
     }
 
-    public void setIdProductoElectronico(int idProductoElectronico) {
-        this.idProductoElectronico = idProductoElectronico;
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
     }
 
-    public int getIdProductoMueble() {
-        return idProductoMueble;
-    }
+    
 
-    public void setIdProductoMueble(int idProductoMueble) {
-        this.idProductoMueble = idProductoMueble;
-    }
 
     public int getCantidad() {
         return cantidad;

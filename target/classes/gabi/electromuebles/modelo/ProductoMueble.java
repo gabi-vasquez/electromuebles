@@ -24,14 +24,6 @@ public class ProductoMueble extends Producto {
         this.ganancia = ganancia;
     }
 
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
     public double getGanancia() {
         return ganancia;
     }

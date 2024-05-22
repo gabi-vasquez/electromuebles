@@ -6,30 +6,27 @@ import javax.swing.JOptionPane;
 
 public class DetallesFacturaDAO extends DAO{
     
-    public DetallesFactura obtenerInformacionDetallesFactura(int id, int idFactura, int idProductoElectronico,int idProductoMueble, int cantidad, double precioUnitario,double subtotal) {
+    public DetallesFactura obtenerInformacionDetallesFactura(int id, int idFactura, int cantidad, double precioUnitario, int idProducto) {
         
         DetallesFactura df = new DetallesFactura();
-        String sql = "SELECT * FROM DetallesFactura WHERE id, idFactura, idProductoElectronico,idProductoMueble, cantidad, precioUnitario, subtotal) VALUES (?,?,?,?,?,?,?) ";
+        String sql = "SELECT * FROM DetallesFactura WHERE id, idFactura, cantidad, precioUnitario,idProducto) VALUES (?,?,?,?,?,) ";
         
         try {
             ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ps.setInt(2, idFactura);
-            ps.setInt(3, idProductoElectronico);
-            ps.setInt(4, idProductoMueble);
-            ps.setInt(5, cantidad);
-            ps.setDouble(6, precioUnitario);
-            ps.setDouble(7, subtotal);
+            ps.setInt(3, cantidad);
+            ps.setDouble(4, precioUnitario);
+            ps.setInt(5, idProducto);
 
             
             rs = ps.executeQuery();
             if (rs.next()) {
                 df.setId(rs.getInt("id"));
                 df.setIdFactura(rs.getInt("idFactura"));
-                df.setIdProductoElectronico(rs.getInt("idProductoElectronico"));
-                df.setIdProductoMueble(rs.getInt("idProductoMueble"));
                 df.setCantidad(rs.getInt("cantidad"));
                 df.setPrecioUnitario(rs.getDouble("precioUnitario"));
+                df.setIdProducto(rs.getInt("idProducto"));
 
             }
         } catch (SQLException e) {
@@ -38,29 +35,17 @@ public class DetallesFacturaDAO extends DAO{
         return df;
     }
     
-    public DetallesFactura crearDetallesFactura(int idFactura, int idProductoElectronico,int idProductoMueble,int cantidad, double precioUnitario, double subtotal){
+    public DetallesFactura crearDetallesFactura(int idFactura, int cantidad, double precioUnitario, int idProducto){
        
         DetallesFactura df = new DetallesFactura();
-        String sql = "INSERT INTO DetallesFactura (idFactura, idProductoElectronico, idProductoMueble, cantidad, precioUnitario, subtotal) VALUES (?,?,?,?,?,?) ";
+        String sql = "INSERT INTO DetallesFactura (idFactura, cantidad, precioUnitario, idProducto) VALUES (?,?,?,?) ";
         
         try{
             ps = con.prepareStatement(sql);
             ps.setInt(1, idFactura);
-            if(idProductoElectronico == 0) {
-                ps.setString(2, null);
-            } else {
-                ps.setInt(2, idProductoElectronico);
-            }
-            if(idProductoMueble == 0) {
-                ps.setString(3, null);
-
-            } else {
-                ps.setInt(3, idProductoMueble);
-
-            }
-            ps.setInt(4, cantidad);
-            ps.setDouble(5, precioUnitario);
-            ps.setDouble(6, subtotal);
+            ps.setInt(2, cantidad);
+            ps.setDouble(3, precioUnitario);
+            ps.setInt(4, idProducto);
             
             int rowsInserted = ps.executeUpdate();
             if(rowsInserted > 0){

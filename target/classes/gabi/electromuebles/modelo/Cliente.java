@@ -32,9 +32,5 @@ public class Cliente extends Persona {
         this.direccion = direccion;
     }
 
-    @Override
-    public void mostrarInformacion() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
 }

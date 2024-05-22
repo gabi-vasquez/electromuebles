@@ -1,7 +1,7 @@
 
 package gabi.electromuebles.modelo;
 
-public abstract class Persona {
+public class Persona {
 
     private int id;
     private String nombreCompleto;
@@ -59,7 +59,5 @@ public abstract class Persona {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-    
-    public abstract void mostrarInformacion();
 
 }
